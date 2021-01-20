@@ -1,0 +1,32 @@
+.alert {
+    position: relative;
+    width: $alert-width;
+    font-size: $font-size-base;
+    padding: $alert-padding-y $alert-padding-x;
+    border-radius: $alert-border-radius;
+    @include alert-style($white, $body-color, $gray-400);
+
+    &-default {
+        @include alert-style($primary, $white, $primary);
+    }
+
+    &-success {
+        @include alert-style($success, $white, $success);
+    }
+
+    &-danger {
+        @include alert-style($danger, $white, $danger);
+    }
+
+    &-warning {
+        @include alert-style($warning, $white, $warning);
+    }
+
+    .close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0.75rem 1.25rem;
+        cursor: pointer;
+    }
+}
