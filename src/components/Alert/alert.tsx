@@ -1,4 +1,4 @@
-import React from 'react'
+import React , { useState } from 'react'
 import classnames from 'classnames'
 
 export enum AlertType {
@@ -13,24 +13,29 @@ interface AlertProps {
     title?: string,
     alertType?: AlertType,
     children: React.ReactNode,
-    onClose?: () => void
+    onClose?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Alert: React.FC<AlertProps> = (props) => {
-    const { alertType, children, closable, title } = props;
+    const { alertType, children, closable, title, onClose } = props;
+    const [closed, setClosed] = useState(false)
     const classes = classnames('alert', {
         [`alert-${alertType}`] : alertType
     })
-    return (
-        <div className={classes}>
-            { title && title.length > 0 && <h5>{title}</h5> }
-            { closable && <span className="close">close</span>}
-            <div>
-                { children }
-            </div>
-            
-        </div>
-    )
+
+    const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
+        setClosed(true)
+        onClose?.(e)
+    }
+    return closed 
+           ? null 
+           : (
+            <div className={classes}>
+                { title && title.length > 0 && <h5>{title}</h5> }
+                { closable && <span className="close" onClick={handleClose}>close</span>}
+                <div> {children} </div>
+            </div>    
+        )
 }
 
 Alert.defaultProps = {
