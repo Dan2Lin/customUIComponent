@@ -11,8 +11,7 @@ export enum ButtonType {
     success = 'success',
     primary = 'primary',
     danger = 'danger',
-    link = 'link',
-    disabled = 'disabled'
+    link = 'link'
 }
 
 interface BaseButtonProps {
