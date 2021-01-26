@@ -1,12 +1,17 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { cleanup, fireEvent, render } from '@testing-library/react'
 import Alert , { AlertType, AlertProps } from './alert'
 
 const testAlertProps: AlertProps = {
     alertType: AlertType.default,
     closable: true,
     title: 'alert title',
-    children: HTMLElement
+    children: HTMLElement,
+    onClose: jest.fn()
+}
+
+const testProps: AlertProps = {
+    closable: false,
 }
 
 describe('test alert componet', () => {
@@ -19,15 +24,16 @@ describe('test alert componet', () => {
     it('should render correct alert component with different props', () => {
         const wrapper = render(<Alert {...testAlertProps}>This is a alert component</Alert>)
         const element = wrapper.getByTestId("test-alert")
-        expect(element).toBeInTheDocument()
-        expect(element).toHaveClass('alert-default')
+        const closeBtnElement = element.querySelector('.close') as HTMLElement
+        fireEvent.click(closeBtnElement)
+        expect(testAlertProps.onClose).toBeCalled()
     })
 
-    it('should render no close btn alert compoent with closable equal true', () => {
-        const wrapper = render(<Alert {...testAlertProps}>This is a alert component</Alert>)
-        // const titleElement = wrapper.container.getElementsByTagName('H5')
-        const closeBtnElement =  wrapper.getByText('close')
-        // expect(titleElement).toBeInTheDocument()
-        expect(closeBtnElement).toBeInTheDocument()
+    it('should render no close btn alert component with closable equal false', () => {
+        cleanup()
+        const wrapper = render(<Alert {...testProps}>alert</Alert>)
+        const element = wrapper.getByTestId("test-alert")
+        const closeBtnElement = element.querySelector('.close')
+        expect(closeBtnElement).not.toBeInTheDocument()
     })
 })
