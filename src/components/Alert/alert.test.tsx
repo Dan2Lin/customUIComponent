@@ -11,7 +11,8 @@ const testAlertProps: AlertProps = {
 }
 
 const testProps: AlertProps = {
-    closable: false,
+    children: HTMLElement,
+    closable: false
 }
 
 describe('test alert componet', () => {
